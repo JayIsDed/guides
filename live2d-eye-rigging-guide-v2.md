@@ -2,18 +2,20 @@
 
 **Starting point:** Layer separation done, blinking works. This guide covers everything needed for full eye movement + googly eyes.
 
+**Jump to:** [Panel Map](#cubism-editor--panel-map) | [Tools](#tools--which-one-and-when) | [Left/Right](#step-1-leftright-eye-movement) | [Up/Down](#step-2-updown-eye-movement) | [Corners](#step-3-check-the-corners) | [Clipping](#step-4-clipping-mask) | [Googly Eyes](#step-5-googly-eyes) | [Common Mistakes](#common-mistakes) | [Quick Reference](#quick-reference)
+
 ---
 
 ## Eye Movement — What Exists
 
 | Motion Type | Parameter Name | What It Controls | Required? |
 |:---|:---|:---|:---:|
-| Blink | `ParamEyeLOpen` / `ParamEyeROpen` | Eyelid open/close | Already done |
-| Left/Right look | `ParamEyeBallX` | Iris moves horizontally | Yes — Step 1 |
-| Up/Down look | `ParamEyeBallY` | Iris moves vertically | Yes — Step 2 |
-| Independent left eye | `ParamEyeBallXL` / `ParamEyeBallYL` | Left iris only | Optional — Step 5 |
-| Independent right eye | `ParamEyeBallXR` / `ParamEyeBallYR` | Right iris only | Optional — Step 5 |
-| Googly wobble | Physics system | Iris jiggles after head movement | Optional — Step 5 |
+| **Blink** | `ParamEyeLOpen` / `ParamEyeROpen` | Eyelid open/close | Already done |
+| **Left/Right look** | `ParamEyeBallX` | Iris moves horizontally | Yes — [Step 1](#step-1-leftright-eye-movement) |
+| **Up/Down look** | `ParamEyeBallY` | Iris moves vertically | Yes — [Step 2](#step-2-updown-eye-movement) |
+| **Independent left eye** | `ParamEyeBallXL` / `ParamEyeBallYL` | Left iris only | Optional — [Step 5](#independent-control-setup) |
+| **Independent right eye** | `ParamEyeBallXR` / `ParamEyeBallYR` | Right iris only | Optional — [Step 5](#independent-control-setup) |
+| **Googly wobble** | Physics system | Iris jiggles after head movement | Optional — [Step 5](#jiggle-physics-setup) |
 
 ---
 
@@ -21,23 +23,23 @@
 
 | Panel | Location | What's In It | When You Use It |
 |:---|:---|:---|:---|
-| Parts List | Left side | All your layers (eye white, iris, etc.) | Select which layer to work on |
-| Parameter List | Bottom | All parameters and their sliders (-1 to +1) | Set keyforms for each position |
-| Inspector | Right side | Properties of selected item, clipping settings | Set up clipping masks |
-| Toolbar | Top | Tools — arrow, deformation, draw, etc. | Switch to deformation tool |
-| Physics Panel | Top menu > Modeling > Physics | Pendulum/jiggle settings | Set up googly eye wobble |
+| **Parts List** | Left side | All your layers (eye white, iris, etc.) | Select which layer to work on |
+| **Parameter List** | Bottom | All parameters and their sliders (-1 to +1) | Set [keyforms](#keyform-values) for each position |
+| **Inspector** | Right side | Properties of selected item, [clipping](#step-4-clipping-mask) settings | Set up clipping masks |
+| **Toolbar** | Top | [Tools](#tools--which-one-and-when) — arrow, deformation, draw, etc. | Switch to **Deformation Tool** |
+| **Physics Panel** | Top menu > Modeling > Physics | Pendulum/[jiggle](#jiggle-physics-setup) settings | Set up [googly eye](#step-5-googly-eyes) wobble |
 
 ---
 
 ## Tools — Which One and When
 
-| Tool | Icon | Use For | Don't Use For |
+| Tool | Icon Looks Like | Use For | **Don't** Use For |
 |:---|:---|:---|:---|
-| **Deformation Tool** | Lasso/net shape | Moving iris for keyforms | -- |
-| Arrow/Select Tool | Arrow | Selecting layers in parts list | Moving the iris (it teleports instead of deforming) |
-| Draw Tool | Pen | Drawing new mesh points | Eye rigging |
+| **Deformation Tool** | Lasso / net shape | **Moving iris for [keyforms](#keyform-values)** | -- |
+| **Arrow/Select Tool** | Arrow | Selecting layers in [Parts List](#cubism-editor--panel-map) | Moving the iris — it **teleports** instead of deforming |
+| **Draw Tool** | Pen | Drawing new mesh points | Eye rigging |
 
-**Rule: Always use the Deformation Tool when positioning the iris for a keyform. The arrow tool will break things.**
+> **Rule: Always use the Deformation Tool when positioning the iris for a keyform. The Arrow tool will teleport the mesh and break your rig. If something jumped — you used the wrong tool. See [Common Mistakes](#common-mistakes).**
 
 ---
 
@@ -68,14 +70,14 @@
 
 | Step | Action | Where |
 |:---:|:---|:---|
-| 1 | Select iris/pupil layer (one eye) | Parts list (left panel) |
-| 2 | Find or create `ParamEyeBallX` | Parameter list (bottom panel) |
-| 3 | Click `...` on parameter > Insert Keyform at -1, 0, +1 | Parameter bar |
+| 1 | Select **iris/pupil layer** (one eye) | [Parts List](#cubism-editor--panel-map) (left panel) |
+| 2 | Find or create `ParamEyeBallX` | [Parameter List](#cubism-editor--panel-map) (bottom panel) |
+| 3 | Click `...` on parameter > **Insert Keyform** at -1, 0, +1 | Parameter bar |
 | 4 | Set slider to **-1** | Parameter slider |
-| 5 | Use deformation tool, drag iris LEFT | Viewport |
+| 5 | Use [**Deformation Tool**](#tools--which-one-and-when), drag iris **LEFT** | Viewport |
 | 6 | Set slider to **+1** | Parameter slider |
-| 7 | Use deformation tool, drag iris RIGHT | Viewport |
-| 8 | Repeat steps 1-7 for the other eye's iris | Same parameter, other layer |
+| 7 | Use [**Deformation Tool**](#tools--which-one-and-when), drag iris **RIGHT** | Viewport |
+| 8 | Repeat steps 1-7 for the **other eye's iris** | Same parameter, other layer |
 
 > Both eyes on the same `ParamEyeBallX` = they move together. This is normal.
 
@@ -236,44 +238,44 @@ Instead of shared parameters, each eye gets its own:
 
 | Problem | Why It Happens | Fix |
 |:---|:---|:---|
-| Iris teleports instead of sliding | Used Move tool instead of Deformation tool | Switch to deformation tool |
-| Iris goes outside the eye | No clipping mask | Add clipping (Step 4) |
-| Both eyes move when I only select one | Both irises on same mesh | Each iris needs its own layer |
-| Corners look stretched | X and Y deformations stacking | Manually adjust corners (Step 3) |
-| Eyes look dead/robotic | Movement range too small | Drag iris further at -1 and +1 |
-| Jiggle never stops | Damping too low | Raise damping: 0.2 > 0.4 |
-| No jiggle at all | Input not connected or damping too high | Check physics Input links to head params |
-| One eye jiggles, other doesn't | Only made one physics group | Create a second group for the other eye |
+| **Iris teleports** instead of sliding | Used **Arrow** tool instead of **[Deformation Tool](#tools--which-one-and-when)** | Switch to **Deformation Tool** |
+| **Iris goes outside** the eye | No [clipping mask](#step-4-clipping-mask) | Add clipping |
+| **Both eyes move** when I only select one | Both irises on same mesh | Each iris needs its own layer |
+| **Corners look stretched** | X and Y deformations stacking | Manually [adjust corners](#step-3-check-the-corners) |
+| **Eyes look dead/robotic** | Movement range too small | Drag iris further at -1 and +1 |
+| **Jiggle never stops** | [Damping](#physics-settings--what-each-one-does) too low | Raise damping: 0.2 > 0.4 |
+| **No jiggle at all** | Input not connected or [damping](#physics-settings--what-each-one-does) too high | Check physics Input links to head params |
+| **One eye jiggles**, other doesn't | Only made one physics group | Create a [second group](#jiggle-physics-setup) for the other eye |
 
 ---
 
 ## What To Rig Next
 
-| Feature | Parameters | Difficulty | Impact on Model |
-|:---|:---|:---:|:---|
-| **Mouth open/close** | `ParamMouthOpenY` | Easy | Talking, reactions |
-| **Smile/frown** | `ParamMouthForm` | Easy | Emotion range |
-| **Eyebrows** | `ParamBrowLY`, `ParamBrowRY` | Easy | Expression depth |
-| **Head rotation** | `ParamAngleX/Y/Z` | Medium | Makes tracking feel alive — big impact |
-| **Hair physics** | Physics system (same as googly) | Medium | Movement, life, bounce |
-| **Body sway** | `ParamBodyAngleX/Y/Z` | Medium | Breathing, subtle motion |
-| **Accessory physics** | Physics system | Easy-Medium | Earrings, ribbons, etc. |
+| Feature | Parameters | Difficulty | Impact | Uses Same Skills As |
+|:---|:---|:---:|:---|:---|
+| **Mouth open/close** | `ParamMouthOpenY` | Easy | Talking, reactions | [Keyforms](#keyform-values) (same as eye movement) |
+| **Smile/frown** | `ParamMouthForm` | Easy | Emotion range | [Keyforms](#keyform-values) |
+| **Eyebrows** | `ParamBrowLY`, `ParamBrowRY` | Easy | Expression depth | [Keyforms](#keyform-values) |
+| **Head rotation** | `ParamAngleX/Y/Z` | Medium | Makes tracking feel alive — **big impact** | [Keyforms](#keyform-values) + [corners](#step-3-check-the-corners) |
+| **Hair physics** | [Physics system](#jiggle-physics-setup) | Medium | Movement, life, bounce | Same setup as [googly eyes](#jiggle-physics-setup) |
+| **Body sway** | `ParamBodyAngleX/Y/Z` | Medium | Breathing, subtle motion | [Keyforms](#keyform-values) |
+| **Accessory physics** | [Physics system](#jiggle-physics-setup) | Easy-Medium | Earrings, ribbons, etc. | Same setup as [googly eyes](#jiggle-physics-setup) |
 
 ---
 
 ## Quick Reference
 
-| I Need To... | Where It Is |
-|:---|:---|
-| Select my iris layer | **Left panel** > Parts list > click the iris |
-| Find/create a parameter | **Bottom panel** > Parameter list > scroll or right-click to create |
-| Add a keyform | **`...`** on the parameter bar > Insert Keyform |
-| Move the iris for a keyform | **Top toolbar** > Deformation tool (lasso icon) |
-| Set up clipping | Drag iris UNDER eye white in Parts list, OR Inspector > Clipping |
-| Open physics | **Top menu** > Modeling > Physics |
-| Adjust jiggle | Physics panel > select group > tweak Damping/Speed/Length |
-| Check all directions | Set both X and Y sliders manually, check viewport |
-| Test physics live | Play button in physics panel, move head params |
+| I Need To... | Where It Is | More Info |
+|:---|:---|:---:|
+| **Select my iris layer** | **Left panel** > Parts List > click the iris | [Panel Map](#cubism-editor--panel-map) |
+| **Find/create a parameter** | **Bottom panel** > Parameter List > scroll or right-click to create | [Panel Map](#cubism-editor--panel-map) |
+| **Add a keyform** | **`...`** on the parameter bar > Insert Keyform | [Keyforms](#keyform-values) |
+| **Move the iris for a keyform** | **Top toolbar** > **Deformation Tool** (lasso icon) | [Tools](#tools--which-one-and-when) |
+| **Set up clipping** | Drag iris UNDER eye white in Parts List, OR Inspector > Clipping | [Clipping](#step-4-clipping-mask) |
+| **Open physics** | **Top menu** > Modeling > Physics | [Jiggle Setup](#jiggle-physics-setup) |
+| **Adjust jiggle** | Physics panel > select group > tweak Damping/Speed/Length | [Physics Settings](#physics-settings--what-each-one-does) |
+| **Check all directions** | Set both X and Y sliders manually, check viewport | [Corners](#step-3-check-the-corners) |
+| **Test physics live** | Play button in physics panel, move head params | [Presets](#presets) |
 
 ---
 
