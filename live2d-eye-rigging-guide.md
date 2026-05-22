@@ -9,16 +9,16 @@
 ## What You're Building
 
 ```
-                 ┌─────────────────────┐
-                 │   FULL EYE MOTION   │
-                 └──────────┬──────────┘
-            ┌───────────────┼───────────────┐
-            ▼               ▼               ▼
-      ┌───────────┐  ┌───────────┐  ┌──────────────┐
-      │ Left/Right│  │  Up/Down  │  │  Googly Eyes  │
-      │ EyeBallX  │  │ EyeBallY  │  │  (physics OR  │
-      │           │  │           │  │  independent) │
-      └───────────┘  └───────────┘  └──────────────┘
+                  +-------------------+
+                  |  FULL EYE MOTION  |
+                  +--------+----------+
+            +--------------|---------------+
+            v              v               v
+      +-----------+  +-----------+  +--------------+
+      | Left/Right|  |  Up/Down  |  | Googly Eyes  |
+      | EyeBallX  |  | EyeBallY  |  | (physics OR  |
+      |           |  |           |  | independent) |
+      +-----------+  +-----------+  +--------------+
 ```
 
 Each eye needs **two movement axes** (left/right + up/down). Combined, these let the eye look in any direction. Googly eyes add independent control or jiggle physics on top.
@@ -33,24 +33,24 @@ Each eye needs **two movement axes** (left/right + up/down). Combined, these let
 ### Where Things Are in Cubism
 
 ```
-┌─────────────────────────────────────────────────┐
-│ Cubism Editor                                   │
-│                                                 │
-│  Left Panel: PARTS LIST (your layers)           │
-│  ├── Find your iris/pupil layer                 │
-│  └── Click it to select                         │
-│                                                 │
-│  Bottom Panel: PARAMETER LIST                   │
-│  ├── Scroll to find "ParamEyeBallX"             │
-│  ├── If it doesn't exist: right-click →         │
-│  │   "Create Parameter" → name it ParamEyeBallX │
-│  └── The slider goes from -1 to +1              │
-│                                                 │
-│  Top Toolbar: TOOLS                             │
-│  ├── Arrow = Select/Move (don't use for this)   │
-│  └── Lasso-looking icon = DEFORMATION TOOL ← ★ │
-│       USE THIS ONE for moving the iris          │
-└─────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  Cubism Editor                                   |
+|                                                  |
+|  Left Panel: PARTS LIST (your layers)            |
+|  +-- Find your iris/pupil layer                  |
+|  +-- Click it to select                          |
+|                                                  |
+|  Bottom Panel: PARAMETER LIST                    |
+|  +-- Scroll to find "ParamEyeBallX"              |
+|  +-- If it doesn't exist: right-click >          |
+|  |   "Create Parameter" > name it ParamEyeBallX  |
+|  +-- The slider goes from -1 to +1               |
+|                                                  |
+|  Top Toolbar: TOOLS                              |
+|  +-- Arrow = Select/Move (don't use for this)    |
+|  +-- Lasso-looking icon = DEFORMATION TOOL  <--* |
+|       USE THIS ONE for moving the iris           |
++--------------------------------------------------+
 ```
 
 ### The Process
@@ -68,14 +68,13 @@ Click the three dots `•••` on the ParamEyeBallX parameter bar → Insert K
 | **+1** | Looking RIGHT | Use deformation tool, drag iris to the RIGHT |
 
 ```
-     -1 (left)           0 (center)         +1 (right)
+     -1 (left)            0 (center)           +1 (right)
 
-    ┌─────────┐         ┌─────────┐        ┌─────────┐
-    │ ●    ·  │         │  · ● ·  │        │  ·    ● │
-    │         │         │         │        │         │
-    └─────────┘         └─────────┘        └─────────┘
-    iris shifted         iris centered      iris shifted
-    to the left                             to the right
+    .----------.         .----------.         .----------.
+    | (o)      |         |   (o)    |         |      (o) |
+    |          |         |          |         |          |
+    '----------'         '----------'         '----------'
+     iris left            iris center          iris right
 ```
 
 **C. Repeat for the other eye** — select the OTHER iris mesh, same parameter, same process. Both eyes on the same `ParamEyeBallX` means they move together (which is normal).
@@ -98,13 +97,13 @@ Exact same process as Step 1, just vertical:
 | **+1** | Looking UP | Deformation tool, drag iris UP |
 
 ```
-       +1 (up)           0 (center)         -1 (down)
+      +1 (up)             0 (center)          -1 (down)
 
-    ┌─────────┐         ┌─────────┐        ┌─────────┐
-    │    ●    │         │         │        │         │
-    │         │         │    ●    │        │         │
-    │         │         │         │        │    ●    │
-    └─────────┘         └─────────┘        └─────────┘
+    .----------.         .----------.         .----------.
+    |   (o)    |         |          |         |          |
+    |          |         |   (o)    |         |          |
+    |          |         |          |         |   (o)    |
+    '----------'         '----------'         '----------'
 ```
 
 Do both eyes, same parameter.
@@ -141,20 +140,20 @@ This prevents the iris from visually escaping the eye boundary at extreme positi
 ### Where to Find It
 
 ```
-┌─────────────────────────────────────────────────┐
-│ Left Panel: PARTS LIST                          │
-│                                                 │
-│  ├── Eye White layer                            │
-│  │   └── Iris layer ← drag INSIDE the eye white│
-│  │                                              │
-│  When the iris is NESTED under the eye white    │
-│  in the parts list, it gets clipped to it.      │
-│  The iris can never visually leave the eye.      │
-│                                                 │
-│  Alternative method:                            │
-│  Select iris → Inspector panel → Clipping →     │
-│  Select the eye white as the clipping target    │
-└─────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  Left Panel: PARTS LIST                          |
+|                                                  |
+|  +-- Eye White layer                             |
+|  |   +-- Iris layer  <-- drag INSIDE eye white   |
+|  |                                               |
+|  When the iris is NESTED under the eye white     |
+|  in the parts list, it gets clipped to it.       |
+|  The iris can never visually leave the eye.       |
+|                                                  |
+|  Alternative method:                             |
+|  Select iris > Inspector panel > Clipping >      |
+|  Select the eye white as the clipping target     |
++--------------------------------------------------+
 ```
 
 ---
@@ -166,13 +165,13 @@ This prevents the iris from visually escaping the eye boundary at extreme positi
 ### Where to Find Physics
 
 ```
-┌─────────────────────────────────────────────────┐
-│ Top Menu Bar:                                   │
-│  Modeling → Physics / Scene Blend               │
-│                                                 │
-│  OR the Physics icon in the toolbar             │
-│  (looks like a pendulum / swinging weight)      │
-└─────────────────────────────────────────────────┘
++--------------------------------------------------+
+|  Top Menu Bar:                                   |
+|  Modeling > Physics / Scene Blend                |
+|                                                  |
+|  OR the Physics icon in the toolbar              |
+|  (looks like a pendulum / swinging weight)       |
++--------------------------------------------------+
 ```
 
 ### Setting Up Jiggle on the Iris
