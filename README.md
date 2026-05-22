@@ -19,9 +19,12 @@ Work through in order, or jump to what you need. Each guide links to the others.
 
 ### V4 — Kobold Voice (same content, friend-on-a-call energy)
 
-| # | Guide | Notes |
+| # | Guide | What It Covers |
 |:---:|:---|:---|
-| 1 | [Eye Rigging — Kobold Edition](live2d-eye-rigging-guide-v4.md) | Same info as V3, rewritten in a casual register. A/B test against V3. |
+| 1 | [Eye Rigging](live2d-eye-rigging-guide-v4.md) | Eye movement, clipping, googly eyes, jiggle physics |
+| 2 | [Mouth Rigging](live2d-mouth-rigging-guide-v4.md) | Open/close, smile/frown, lip sync vowel shapes |
+| 3 | [Head & Body](live2d-head-body-rigging-guide-v4.md) | Eyebrows, head rotation (X/Y/Z), body sway, breathing |
+| 4 | [Physics, Hair & Accessories](live2d-physics-hair-guide-v4.md) | Hair physics, accessory jiggle, preset library, tuning guide |
 
 ### Other Versions
 
